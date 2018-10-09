@@ -13,16 +13,14 @@ textQueryClass::textQueryClass(std::string& s)
 	input_file.open(s);
 	if (input_file.is_open()) {
 
-		std::stringstream buffer;
 		std::string temp;
 		
-		buffer << input_file.rdbuf();
-		input_file.close();
-
-		while (buffer >> temp) {
+		while (std::getline(input_file, temp)) {
 			lines.push_back(temp);
 		}
 	}
+	else
+		std::cout << "no file";
 }
 
 
@@ -41,6 +39,7 @@ void textQueryClass::search_word(std::string &searchWord)
 		std::stringstream buffer(lines[i]);
 		while (buffer >> temp) {
 			if (searchWord.compare(temp) == 0) {
+				++counter;
 				occurrences.insert(i);
 			}
 		}
@@ -49,8 +48,9 @@ void textQueryClass::search_word(std::string &searchWord)
 
 std::ostream& textQueryClass::print_results(std::ostream& os)
 {
-	os << "element - " << _searchWord << "occurs " << counter << " times\n";
+	os << "element - " << _searchWord << " occurs " << counter << " times\n";
 	for (auto item : occurrences) {
 		os << "Line: " << item << " " << lines[item] << std::endl;
 	}
+	return os;
 }
