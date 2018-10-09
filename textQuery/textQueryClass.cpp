@@ -34,6 +34,7 @@ void textQueryClass::search_word(std::string &searchWord)
 {
 	counter = 0;
 	occurrences.clear();
+	_searchWord = searchWord;
 
 	std::string temp;
 	for (size_t i = 0; i < lines.size(); ++i) {
@@ -43,5 +44,13 @@ void textQueryClass::search_word(std::string &searchWord)
 				occurrences.insert(i);
 			}
 		}
+	}
+}
+
+std::ostream& textQueryClass::print_results(std::ostream& os)
+{
+	os << "element - " << _searchWord << "occurs " << counter << " times\n";
+	for (auto item : occurrences) {
+		os << "Line: " << item << " " << lines[item] << std::endl;
 	}
 }
